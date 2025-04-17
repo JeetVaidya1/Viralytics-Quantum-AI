@@ -134,4 +134,4 @@ This API is ready for:
 - 📊 Request-based billing
 
 Want to try it or buy access? Reach out:  
-📧 **jeetvaidya@pm.me**
+📧 **vaidyajeet4@gmail.com**
