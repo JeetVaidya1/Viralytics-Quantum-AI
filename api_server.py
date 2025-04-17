@@ -120,3 +120,4 @@ async def predict_upload(
     except Exception as e:
         logger.exception("🔥 Exception during /predict-upload")
         return JSONResponse(status_code=500, content={"error": str(e)})
+#h
