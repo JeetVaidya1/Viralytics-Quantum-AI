@@ -1,3 +1,4 @@
+
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ["OMP_NUM_THREADS"] = "1"
@@ -27,8 +28,8 @@ app.add_middleware(
 # ✅ Load trained model
 model = tf.keras.models.load_model("model.keras")
 
-# ✅ Define API Key(s)
-VALID_API_KEYS = {"test-key-123", "premium-user-456"}
+# ✅ Load API Key from environment
+MASTER_API_KEY = os.getenv("MASTER_API_KEY")
 
 @app.get("/")
 def read_root():
@@ -40,12 +41,12 @@ async def predict_upload(
     authorization: str = Header(default=None),
     features: str = Query(default="")
 ):
-    # ✅ Check API Key
+    # ✅ Check API Key from header against env key
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Missing or invalid API key.")
 
     token = authorization.replace("Bearer ", "").strip()
-    if token not in VALID_API_KEYS:
+    if token != MASTER_API_KEY:
         raise HTTPException(status_code=403, detail="Unauthorized API key.")
 
     try:
