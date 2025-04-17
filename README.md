@@ -82,6 +82,41 @@ curl -X POST "https://your-api-url/predict-upload/?features=Flow%20Duration,Tota
 
 ---
 
+## 🧠 How It Works: Quantum-Enhanced AI
+
+This API integrates **quantum circuit encoding** to model subtle, nonlinear patterns in cybersecurity data that classical models may overlook.
+
+### ⚛️ Step-by-step:
+
+1. **Feature Extraction**  
+   Two selected numerical features (e.g. `Flow Duration`, `Packet Rate`) are pulled from your CSV file.
+
+2. **Quantum Feature Mapping**  
+   These values are embedded into a **quantum circuit** using PennyLane and simulated qubit gates (Hadamard, RX, RY, RZ, CNOT).
+
+   This produces a **64-dimensional quantum probability vector** that captures entangled relationships between the inputs.
+
+3. **Neural Inference**  
+   The quantum output is passed into a **deep neural network** trained to detect cyber threats.
+
+4. **Prediction & Certainty**  
+   The model returns:
+   - Risk Level: Low, Medium, or High
+   - Confidence Range: min/max predictions
+   - Entropy: to measure uncertainty
+   - Flagged rows: most suspicious based on scores
+
+### 🧪 Why Quantum?
+
+Quantum circuits offer a **richer, more expressive representation of relationships**, ideal for:
+- Noisy or adversarial data
+- Nonlinear attack signatures
+- Next-gen threat detection
+
+This is not a traditional ML model — it’s a **quantum-classical hybrid** optimized for real-world security.
+
+---
+
 ## 🛠 Tech Stack
 
 - FastAPI + Uvicorn
