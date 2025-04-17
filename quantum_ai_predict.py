@@ -5,6 +5,7 @@ import numpy as np
 import json
 import os
 import urllib.parse
+import time
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -62,7 +63,7 @@ def quantum_feature_map(x):
     return circuit(x)
 
 def main():
-    print("🚀 Quantum AI script started", flush=True)
+    start_time = time.time()
 
     if len(sys.argv) < 2:
         print(json.dumps({"error": "Usage: python quantum_ai_predict.py <path_to_csv> [feature1,feature2]"}))
@@ -92,9 +93,15 @@ def main():
             selected_features = numeric_cols[:2]
             X = df[selected_features].to_numpy().astype(np.float32)
 
-        X = X[:50]  # ✅ Limit to first 50 rows for safety
+        # ✅ Reduce to 10 rows max for Render compute safety
+        X = X[:10]
 
-        quantum_transformed = np.array([quantum_feature_map(row) for row in X])
+        quantum_transformed = []
+        for i, row in enumerate(X):
+            quantum_transformed.append(quantum_feature_map(row))
+            print(f"✅ Quantum features processed row {i+1}/{len(X)}")
+
+        quantum_transformed = np.array(quantum_transformed)
 
         predictions = model.predict(quantum_transformed, verbose=0).flatten()
 
@@ -120,14 +127,14 @@ def main():
             "explanation": explanation,
             "suggested_action": action,
             "suspicious_rows": suspicious_rows,
-            "flagged_features": flagged_features
+            "flagged_features": flagged_features,
+            "inference_time_sec": round(time.time() - start_time, 2)
         }
 
-        print(json.dumps(result), flush=True)
-        print("✅ Quantum AI script finished", flush=True)
+        print(json.dumps(result))
 
     except Exception as e:
-        print(json.dumps({"error": str(e)}), flush=True)
+        print(json.dumps({"error": str(e)}))
 
 if __name__ == "__main__":
     main()
