@@ -1,4 +1,3 @@
-# quantum_ai_predict.py
 import sys
 import pandas as pd
 import tensorflow as tf
@@ -63,6 +62,8 @@ def quantum_feature_map(x):
     return circuit(x)
 
 def main():
+    print("🚀 Quantum AI script started", flush=True)
+
     if len(sys.argv) < 2:
         print(json.dumps({"error": "Usage: python quantum_ai_predict.py <path_to_csv> [feature1,feature2]"}))
         return
@@ -76,10 +77,8 @@ def main():
         selected_features = decoded.split(",")
 
     try:
-        print("📥 Loading model...")
         model = tf.keras.models.load_model("model.keras")
 
-        print("📊 Reading CSV data...")
         df = pd.read_csv(csv_path)
 
         if selected_features:
@@ -93,12 +92,10 @@ def main():
             selected_features = numeric_cols[:2]
             X = df[selected_features].to_numpy().astype(np.float32)
 
-        X = X[:100]  # ✅ Limit to first 100 rows for performance
-        print(f"⚛️ Applying quantum feature map to {len(X)} rows...")
+        X = X[:50]  # ✅ Limit to first 50 rows for safety
 
         quantum_transformed = np.array([quantum_feature_map(row) for row in X])
 
-        print("🤖 Running prediction...")
         predictions = model.predict(quantum_transformed, verbose=0).flatten()
 
         avg_conf = float(np.mean(predictions))
@@ -126,11 +123,11 @@ def main():
             "flagged_features": flagged_features
         }
 
-        print("✅ Prediction complete.")
-        print(json.dumps(result))
+        print(json.dumps(result), flush=True)
+        print("✅ Quantum AI script finished", flush=True)
 
     except Exception as e:
-        print(json.dumps({"error": str(e)}))
+        print(json.dumps({"error": str(e)}), flush=True)
 
 if __name__ == "__main__":
     main()
