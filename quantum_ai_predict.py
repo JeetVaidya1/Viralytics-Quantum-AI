@@ -76,8 +76,10 @@ def main():
         selected_features = decoded.split(",")
 
     try:
+        print("📥 Loading model...")
         model = tf.keras.models.load_model("model.keras")
 
+        print("📊 Reading CSV data...")
         df = pd.read_csv(csv_path)
 
         if selected_features:
@@ -92,9 +94,11 @@ def main():
             X = df[selected_features].to_numpy().astype(np.float32)
 
         X = X[:100]  # ✅ Limit to first 100 rows for performance
+        print(f"⚛️ Applying quantum feature map to {len(X)} rows...")
 
         quantum_transformed = np.array([quantum_feature_map(row) for row in X])
 
+        print("🤖 Running prediction...")
         predictions = model.predict(quantum_transformed, verbose=0).flatten()
 
         avg_conf = float(np.mean(predictions))
@@ -122,6 +126,7 @@ def main():
             "flagged_features": flagged_features
         }
 
+        print("✅ Prediction complete.")
         print(json.dumps(result))
 
     except Exception as e:
