@@ -1,0 +1,11 @@
+# Ignore virtual environments and cache
+venv*/
+__pycache__/
+
+# Ignore large and test data
+*.csv
+*.keras
+
+# Ignore frontend repos or unrelated folders
+frontend/
+quantum-ui/
